@@ -1579,18 +1579,23 @@
  * For other boards you may need to define FIL_RUNOUT_PIN, FIL_RUNOUT2_PIN, etc.
  */
 //
-#define FILAMENT_RUNOUT_SENSOR
-#if ENABLED(FILAMENT_RUNOUT_SENSOR)
+  #define FILAMENT_RUNOUT_SENSOR
+  #if ENABLED(FILAMENT_RUNOUT_SENSOR)
   #define FIL_RUNOUT_ENABLED_DEFAULT true // Enable the sensor on startup. Override with M412 followed by M500.
   #define NUM_RUNOUT_SENSORS   2 // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
+#ifndef FIL_RUNOUT_PIN
   #define FIL_RUNOUT_PIN PG13
-  #define FIL_RUNOU2_PIN PG15
+#endif
+
+#ifndef FIL_RUNOUT1_PIN 
+  #define FIL_RUNOUT1_PIN1 PG15
+#endif
   #define FIL_RUNOUT_STATE     LOW        // Pin state indicating that filament is NOT present.
   #define FIL_RUNOUT_PULLUP               // Use internal pullup for filament runout pins.
   //#define FIL_RUNOUT_PULLDOWN           // Use internal pulldown for filament runout pins.
   #define WATCH_ALL_RUNOUT_SENSORS      // Execute runout script on any triggering sensor, not only for the active extruder.
                                           // This is automatically enabled for MIXING_EXTRUDERs.
-
+                                           
   // Override individually if the runout sensors vary
   //#define FIL_RUNOUT1_STATE LOW
   //#define FIL_RUNOUT1_PULLUP
@@ -1634,21 +1639,33 @@
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
   #define FILAMENT_RUNOUT_DISTANCE_MM 3
 
-#ifdef FILAMENT_RUNOUT_DISTANCE_MM 
+    #ifdef FILAMENT_RUNOUT_DISTANCE_MM 
     //Enable this option to use an encoder disc that toggles the runout pin
     // as the filament moves. (Be sure to set FILAMENT_RUNOUT_DISTANCE_MM
     // large enough to avoid false positives.)
     #define FILAMENT_MOTION_SENSOR
     #define FILAMENT_SWITCH_AND_MOTION
+    #define NUM_MOTION_SENSORS 2
+  #define NUM_MOTION_SENSORS 2
+
+  #ifndef FIL_MOTION_PIN  
+    #define FIL_MOTION_PIN PG12
   #endif
 
+  #ifndef FIL_MOTION1_PIN
+    #define FIL_MOTION1_PIN1 PG14
+  #endif
+
+  #ifndef  FIL_SWITCH_PIN  
+    #define FIL_SWITCH_PIN PG13
+  #endif
+
+  #ifndef  FIL_SWITCH1_PIN  
+    #define FIL_SWITCH1_PIN1 PG15
+  #endif
 #endif
-
-
-
-
-
-
+ 
+#endif
 
 //===========================================================================
 //=============================== Bed Leveling ==============================
